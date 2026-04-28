@@ -1,0 +1,401 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     15423,        393]
+NotebookOptionsPosition[     14777,        376]
+NotebookOutlinePosition[     15177,        392]
+CellTagsIndexPosition[     15134,        389]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"EnvironmentObj", "[", 
+     RowBox[{"parent_", ":", "1"}], "]"}], ":=", 
+    RowBox[{"Association", "[", 
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"parent", "->", "\[IndentingNewLine]", 
+        RowBox[{"Association", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"\"\<Vars\>\"", "->", 
+            RowBox[{"<|", "|>"}]}], ",", "\[IndentingNewLine]", 
+           RowBox[{"\"\<Funcs\>\"", " ", "->", 
+            RowBox[{"<|", "|>"}]}]}], "\[IndentingNewLine]", "}"}], "]"}]}], ",",
+        "\[IndentingNewLine]", 
+       RowBox[{"\"\<Depth\>\"", "->", "parent"}]}], "\[IndentingNewLine]", 
+      "}"}], "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"EnvironmentNewObj", "[", "ass_", "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Association", "[", 
+       RowBox[{"ass", ",", 
+        RowBox[{"EnvironmentObj", "[", 
+         RowBox[{
+          RowBox[{"ass", "[", "\"\<Depth\>\"", "]"}], "+", "1"}], "]"}]}], 
+       "]"}]}], "\[IndentingNewLine]", "]"}]}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"EnvironmentNewObj", "[", "env_", "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", "ass", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"ass", "=", 
+        RowBox[{"Association", "[", 
+         RowBox[{
+          RowBox[{"EnvironmentObj", "[", "]"}], ",", 
+          RowBox[{"Thread", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"Cases", "[", 
+               RowBox[{
+                RowBox[{"Keys", "[", "env", "]"}], ",", 
+                RowBox[{"_", "?", "NumberQ"}]}], "]"}], "+", "1"}], ")"}], "->",
+             "\[IndentingNewLine]", 
+            RowBox[{"(", 
+             RowBox[{"Cases", "[", 
+              RowBox[{
+               RowBox[{"Values", "[", "env", "]"}], ",", 
+               RowBox[{"_", "?", "AssociationQ"}]}], "]"}], ")"}]}], 
+           "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", "]"}]}], ";",
+        "\[IndentingNewLine]", 
+       RowBox[{"Association", "[", 
+        RowBox[{"ass", ",", 
+         RowBox[{"\"\<Depth\>\"", "->", 
+          RowBox[{
+           RowBox[{"env", "[", "\"\<Depth\>\"", "]"}], "+", "1"}]}]}], 
+        "]"}]}]}], "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"EnvironmentOldObj", "[", "env_", "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", "child", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"child", "=", 
+        RowBox[{"Transpose", "[", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"i", "-", "1"}], ",", 
+             RowBox[{"env", "[", "i", "]"}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"i", ",", "2", ",", 
+             RowBox[{"env", "[", "\"\<Depth\>\"", "]"}]}], "}"}]}], "]"}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Association", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"MapThread", "[", 
+          RowBox[{"Rule", ",", "child"}], "]"}], ",", 
+         RowBox[{"\"\<Depth\>\"", "->", 
+          RowBox[{
+           RowBox[{"env", "[", "\"\<Depth\>\"", "]"}], "-", "1"}]}]}], 
+        "]"}]}]}], "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"EnvironmentGetVar", "[", 
+     RowBox[{"self_", ",", "name_"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"value", ",", 
+        RowBox[{"i", "=", "1"}]}], "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"While", "[", 
+        RowBox[{
+         RowBox[{"i", "<=", 
+          RowBox[{"self", "[", "\"\<Depth\>\"", "]"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"value", "=", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"self", "[", "i", "]"}], "[", "\"\<Vars\>\"", "]"}], "[",
+             "name", "]"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"If", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Not", "[", 
+             RowBox[{"MissingQ", "[", "value", "]"}], "]"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", "value", "]"}]}], "\[IndentingNewLine]", 
+           "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"i", "=", 
+           RowBox[{"i", "+", "1"}]}]}]}], "\[IndentingNewLine]", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Return", "[", "None", "]"}]}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"SetAttributes", "[", 
+  RowBox[{"EnvironmentSetVar", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"EnvironmentSetVar", "[", 
+     RowBox[{"self_", ",", "name_", ",", "newvalue_"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"value", ",", 
+        RowBox[{"i", "=", "1"}]}], "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"While", "[", 
+        RowBox[{
+         RowBox[{"i", "<=", 
+          RowBox[{"self", "[", "\"\<Depth\>\"", "]"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"value", "=", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"self", "[", "i", "]"}], "[", "\"\<Vars\>\"", "]"}], "[",
+             "name", "]"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"If", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Not", "[", 
+             RowBox[{"MissingQ", "[", "value", "]"}], "]"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{"self", "[", "i", "]"}], "[", "\"\<Vars\>\"", "]"}], "[",
+                "name", "]"}], "=", "newvalue"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"Return", "[", "newvalue", "]"}]}]}], 
+           "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"i", "=", 
+           RowBox[{"i", "+", "1"}]}]}]}], "\[IndentingNewLine]", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"self", "[", "1", "]"}], "[", "\"\<Vars\>\"", "]"}], "[", 
+         "name", "]"}], "=", "newvalue"}], ";"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"SetAttributes", "[", 
+  RowBox[{"EnvironmentSetVarAt", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"EnvironmentSetVarAt", "[", 
+     RowBox[{"self_", ",", "name_", ",", "newvalue_", ",", 
+      RowBox[{"level_", ":", "1"}]}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", "value", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"value", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"self", "[", "level", "]"}], "[", "\"\<Vars\>\"", "]"}], "[",
+          "name", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"Not", "[", 
+          RowBox[{"MissingQ", "[", "value", "]"}], "]"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"self", "[", "level", "]"}], "[", "\"\<Vars\>\"", "]"}], 
+            "[", "name", "]"}], "=", "newvalue"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", "newvalue", "]"}]}]}], "\[IndentingNewLine]",
+         "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"self", "[", "level", "]"}], "[", "\"\<Vars\>\"", "]"}], "[",
+          "name", "]"}], "=", "newvalue"}], ";"}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"SetAttributes", "[", 
+  RowBox[{"EnvironmentSetLocalVar", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"EnvironmentSetLocalVar", "[", 
+     RowBox[{"self_", ",", "name_", ",", "newvalue_"}], "]"}], ":=", 
+    RowBox[{"EnvironmentSetVarAt", "[", 
+     RowBox[{"self", ",", "name", ",", "newvalue", ",", "1"}], "]"}]}], ";"}],
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"EnvironmentGetFuncs", "[", 
+    RowBox[{"self_", ",", "name_"}], "]"}], ":=", 
+   RowBox[{"Block", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"value", ",", 
+       RowBox[{"i", "=", "1"}]}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"While", "[", 
+       RowBox[{
+        RowBox[{"i", "<=", 
+         RowBox[{"self", "[", "\"\<Depth\>\"", "]"}]}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"value", "=", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"self", "[", "i", "]"}], "[", "\"\<Funcs\>\"", " ", "]"}],
+            "[", "name", "]"}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"Not", "[", 
+            RowBox[{"MissingQ", "[", "value", "]"}], "]"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"Return", "[", "value", "]"}]}], "\[IndentingNewLine]", 
+          "]"}], ";", "\[IndentingNewLine]", 
+         RowBox[{"i", "=", 
+          RowBox[{"i", "+", "1"}]}]}]}], "\[IndentingNewLine]", "]"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Return", "[", "None", "]"}]}]}], "\[IndentingNewLine]", 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"SetAttributes", "[", 
+  RowBox[{"EnvironmentSetFuncs", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"EnvironmentSetFuncs", "[", 
+    RowBox[{"self_", ",", "name_", ",", "value_"}], "]"}], ":=", 
+   RowBox[{"Block", "[", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"self", "[", "1", "]"}], "[", "\"\<Funcs\>\"", "]"}], "[", 
+       "name", "]"}], "=", "value"}]}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.977304666327997*^9, 3.9773049423918724`*^9}, {
+   3.9773050190048103`*^9, 3.9773050312856407`*^9}, {3.97730510336936*^9, 
+   3.977305105489031*^9}, 3.9773051434887123`*^9, {3.97730517954138*^9, 
+   3.9773051847164307`*^9}, {3.9773052597196712`*^9, 
+   3.9773052784098377`*^9}, {3.977305325375166*^9, 3.9773053915159492`*^9}, {
+   3.9773054676501694`*^9, 3.977305542301201*^9}, {3.9773058900720615`*^9, 
+   3.9773058930091343`*^9}, {3.9773059232977657`*^9, 
+   3.9773059279296913`*^9}, {3.977306812062441*^9, 3.9773068219952335`*^9}, {
+   3.9787639972849884`*^9, 3.978764005595541*^9}, {3.9791173745153313`*^9, 
+   3.9791174336690903`*^9}, {3.9791182760620823`*^9, 
+   3.9791182777460938`*^9}, {3.9857759895465107`*^9, 
+   3.9857760660850544`*^9}, {3.985777053086916*^9, 3.9857770532950497`*^9}, {
+   3.9857810484354553`*^9, 3.9857810503405323`*^9}},
+ Background->RGBColor[
+  0.87, 0.94, 1],ExpressionUUID->"2805710c-b786-8049-9c20-df27bf1eb5c1"],
+
+Cell[BoxData["\[IndentingNewLine]"], "Input",
+ CellChangeTimes->{{3.9773008386303883`*^9, 3.9773008519304905`*^9}, {
+   3.9773008821866016`*^9, 3.9773009226316757`*^9}, {3.977300967773937*^9, 
+   3.977301013579403*^9}, {3.9773067477275543`*^9, 3.9773067600289*^9}, {
+   3.985776844093767*^9, 3.985776852930559*^9}, 
+   3.985777068721344*^9},ExpressionUUID->"87eed0c9-c54d-484b-969a-\
+5f835b360edd"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+    "new", " ", "eviroment", " ", "mean", " ", "child", " ", "new", " ", 
+     "depth", " ", "1", " ", "op", " ", "top", " ", "\[IndentingNewLine]", 
+     "while", " ", "old", " ", "parent", " ", "depth", " ", "increase", " ", 
+     "by", " ", "1", "\[IndentingNewLine]", "so", " ", "set", " ", "local", " ",
+      "var", " ", "mean", " ", "set", " ", "at", " ", "depth", " ", "1", " ", 
+     "\[IndentingNewLine]", "and", " ", "when", " ", "get", " ", "old", " ", 
+     "envirement", " ", "\[IndentingNewLine]", "depth", " ", "1", " ", "is", " ",
+      "deleted", " ", "and", " ", "re"}], "-", 
+    RowBox[{"number", " ", "the", " ", "depth"}]}], "\[IndentingNewLine]", 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"e0", "=", 
+     RowBox[{"EnvironmentObj", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"EnvironmentSetVar", "[", 
+      RowBox[{"e0", ",", "\"\<c\>\"", ",", "10"}], "]"}], "\[IndentingNewLine]", 
+     RowBox[{"e1", "=", 
+      RowBox[{"EnvironmentNewObj", "[", "e0", "]"}]}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"e2", "=", 
+     RowBox[{"EnvironmentNewObj", "[", "e1", "]"}]}]}], "\[IndentingNewLine]",
+    "*)"}], "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.9857762299397507`*^9, 3.985776237567499*^9}, {
+  3.9857763940904064`*^9, 3.985776420140253*^9}, {3.9857764677064114`*^9, 
+  3.985776497533146*^9}, {3.9857765475813217`*^9, 3.9857765525917645`*^9}, {
+  3.9857765911062546`*^9, 
+  3.985776732350191*^9}},ExpressionUUID->"293e8bee-8e98-724f-be5b-\
+0854c6679c0c"],
+
+Cell["\<\
+  def get_var(self, name):
+ 
+    while self:
+      value = self.vars.get(name)
+      if value is not None:
+        return value
+      else:
+        self = self.parent
+    return None
+    
+    
+     def get_func(self, name):
+
+    while self:
+      value = self.funcs.get(name)
+      if value is not None:
+        return value
+      else:
+        self = self.parent 
+    return None\
+\>", "Text",
+ CellChangeTimes->{{3.9857803921922417`*^9, 
+  3.9857804386113453`*^9}},ExpressionUUID->"98e15ae8-1d91-2e47-85ef-\
+848a2d166f4e"]
+},
+WindowSize->{510, 537},
+WindowMargins->{{Automatic, -4.5}, {Automatic, 0}},
+FrontEndVersion->"14.2 for Microsoft Windows (64-bit) (March 14, 2025)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"3662334e-b1dc-9d43-ba75-c46fa29ac47c"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 11601, 285, 1794, "Input",ExpressionUUID->"2805710c-b786-8049-9c20-df27bf1eb5c1"],
+Cell[12158, 307, 398, 6, 47, "Input",ExpressionUUID->"87eed0c9-c54d-484b-969a-5f835b360edd"],
+Cell[12559, 315, 1677, 33, 275, "Input",ExpressionUUID->"293e8bee-8e98-724f-be5b-0854c6679c0c"],
+Cell[14239, 350, 534, 24, 449, "Text",ExpressionUUID->"98e15ae8-1d91-2e47-85ef-848a2d166f4e"]
+}
+]
+*)
+

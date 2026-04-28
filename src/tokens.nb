@@ -1,0 +1,225 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      9172,        217]
+NotebookOptionsPosition[      8620,        201]
+NotebookOutlinePosition[      9023,        217]
+CellTagsIndexPosition[      8980,        214]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"PrintToken", "[", "token_", "]"}], ":=", 
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<(\>\"", ",", "\[IndentingNewLine]", " ", 
+     RowBox[{"token", "[", "\"\<Token_Type\>\"", "]"}], ",", " ", "\"\<, \>\"",
+      ",", "\[IndentingNewLine]", " ", "\"\<'\>\"", ",", 
+     RowBox[{"token", "[", "\"\<Lexeme\>\"", "]"}], ",", "\"\<'\>\"", 
+     ",", "\"\<, \>\"", ",", "\[IndentingNewLine]", 
+     RowBox[{"token", "[", "\"\<Line\>\"", "]"}], ",", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", "\"\<)\>\""}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Token", "[", 
+   RowBox[{"token_", ",", "lexem_", ",", "line_"}], "]"}], ":=", 
+  RowBox[{"Association", "[", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"\"\<Token_Type\>\"", "->", "token"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"\"\<Lexeme\>\"", "->", "lexem"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"\"\<Line\>\"", "->", "line"}]}], "\[IndentingNewLine]", "}"}], 
+   "]"}]}]}], "Input",
+ CellChangeTimes->{{3.971682254510151*^9, 3.971682341278391*^9}, {
+   3.971699199190956*^9, 3.971699200120777*^9}, {3.9717087622908382`*^9, 
+   3.971708771066988*^9}, 3.9717088238728065`*^9},
+ CellLabel->"In[1]:=",ExpressionUUID->"1e365366-ee09-0a43-ab2d-9247ee703d62"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"LPAREN", "=", "\"\<TOK_LPAREN\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"RPAREN", "=", "\"\<TOK_RPAREN\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"LCURLY", "=", "\"\<TOK_LCURLY\>\""}], " ", ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"RCURLY", "=", "\"\<TOK_RCURLY\>\""}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"LSQUAR", "=", "\"\<TOK_LSQUAR\>\""}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"RSQUAR", "=", "\"\<TOK_RSQUAR\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"COMMA", "=", "\"\<TOK_COMMA\>\""}], ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"DOT", "=", "\"\<TOK_DOT\>\""}], " ", ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"PLUS", "=", "\"\<TOK_PLUS\>\""}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"MINUS", "=", "\"\<TOK_MINUS\>\""}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"STAR", "=", "\"\<TOK_STAR\>\""}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"SLASH", "=", "\"\<TOK_SLASH\>\""}], ";"}], " "}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CARET", "=", "\"\<TOK_CARET\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"MOD", "=", "\"\<TOK_MOD\>\""}], " ", ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"COLON", "=", "\"\<TOK_COLON\>\""}], ";"}], " "}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"SEMICOLON", "=", "\"\<TOK_SEMICOLON\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"QUESTION", "=", "\"\<TOK_QUESTION\>\""}], " ", ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"NOT", "=", "\"\<TOK_NOT\>\""}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"GT", "=", "\"\<TOK_GT\>\""}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"LT", "=", "\"\<TOK_LT\>\""}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"EQ", "=", "\"\<TOK_EQ\>\""}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"Two", " ", "charachter", " ", "token"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"GE", "=", "\"\<TOK_GE\>\""}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"LE", "=", "\"\<TOK_LE\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"NE", "=", "\"\<TOK_NE\>\""}], " ", ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"EQEQ", "=", "\"\<TOK_EQEQ\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"ASSIGN", "=", "\"\<TOK_ASSIGN\>\""}], " ", ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"GTGT", "=", "\"\<TOK_GTGT\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"LTLT", "=", "\"\<TOK_LTLT\>\""}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", "Literals", " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"IDENTIFIER", "=", "\"\<TOK_IDENTIFIER\>\""}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"STRING", "=", "\"\<TOK_STRING\>\""}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"INTEGER", "=", "\"\<TOK_INTEGER\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"FLOAT", "=", "\"\<TOK_FLOAT\>\""}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", "Keywords", " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"IF", "=", "\"\<TOK_IF\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"THEN", "=", "\"\<TOK_THEN\>\""}], " ", ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ELSE", "=", "\"\<TOK_ELSE\>\""}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"TRUE", "=", "\"\<TOK_TRUE\>\""}], ";"}], " "}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"FALSE", "=", "\"\<TOK_FALSE\>\""}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"AND", "=", "\"\<TOK_AND\>\""}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"LOCAL", "=", "\"\<TOK_LOCAL\>\""}], " ", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"OR", "=", "\"\<TOK_OR\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"WHILE", "=", "\"\<TOK_WHILE\>\""}], " ", ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"DO", "=", "\"\<TOK_DO\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"FOR", "=", "\"\<TOK_FOR\>\""}], ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"FUNC", "=", "\"\<TOK_FUNC\>\""}], " ", ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"NULL", "=", "\"\<TOK_NULL\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"END", "=", "\"\<TOK_END\>\""}], ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"PRINT", "=", "\"\<TOK_PRINT\>\""}], " ", ";", 
+   RowBox[{"PRINTLN", "=", "\"\<TOK_PRINTLN\>\""}], ";", " ", 
+   RowBox[{"RET", "=", "\"\<TOK_RET\>\""}], ";"}]}]}], "Input",
+ CellChangeTimes->{{3.9716814266991463`*^9, 3.9716815292754936`*^9}, {
+  3.971681566062649*^9, 3.9716818788391247`*^9}, {3.9763536928433056`*^9, 
+  3.976353694831293*^9}},ExpressionUUID->"65181937-d9e1-4e45-a074-\
+dee7670d6895"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Keywords", "=", 
+   RowBox[{"Association", "[", 
+    RowBox[{"{", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"\"\<if\>\"", "->", "IF"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<then\>\"", "->", "THEN"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<else\>\"", "->", "ELSE"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<true\>\"", "->", "TRUE"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<false\>\"", "->", "FALSE"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<and\>\"", "->", "AND"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<or\>\"", "->", "OR"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<while\>\"", "->", "WHILE"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<do\>\"", "->", "DO"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<local\>\"", "->", "LOCAL"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<for\>\"", "->", "FOR"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<func\>\"", "->", "FUNC"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<null\>\"", "->", "NULL"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<end\>\"", "->", "END"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<print\>\"", "->", "PRINT"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<println\>\"", "->", "PRINTLN"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"\"\<ret\>\"", "->", "RET"}]}], "}"}], "\[IndentingNewLine]", 
+    "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.9716819164507446`*^9, 3.971682057026367*^9}},
+ CellLabel->"In[50]:=",ExpressionUUID->"911bb3d3-0d7b-4149-a7eb-f30eb56f30e6"]
+},
+WindowSize->{1012.5, 531.75},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"14.2 for Microsoft Windows (64-bit) (March 14, 2025)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"bfbdbf51-73a5-3249-a4db-e1f767f88151"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 1318, 26, 218, "Input",ExpressionUUID->"1e365366-ee09-0a43-ab2d-9247ee703d62"],
+Cell[1875, 48, 5143, 123, 998, "Input",ExpressionUUID->"65181937-d9e1-4e45-a074-dee7670d6895"],
+Cell[7021, 173, 1595, 26, 370, "Input",ExpressionUUID->"911bb3d3-0d7b-4149-a7eb-f30eb56f30e6"]
+}
+]
+*)
+

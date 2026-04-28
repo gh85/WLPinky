@@ -1,0 +1,1590 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     72548,       1582]
+NotebookOptionsPosition[     72152,       1567]
+NotebookOutlinePosition[     72587,       1584]
+CellTagsIndexPosition[     72544,       1581]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParserError", "::", "expect"}], 
+     "=", "\"\<PareserError : Expected `1`,  Line: `2`\>\""}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParserError", "::", "found"}], "  ", 
+     "=", "\"\<PareserError : Found `1` at the end of parsing ,  Line: \
+`2`\>\""}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParserError", "::", "args"}], "  ", 
+     "=", "\"\<Functions cannot have more than 255 parameters. ,  Line: `1`\>\
+\""}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Parser", "[", "tokens_", "]"}], ":=", 
+     RowBox[{"Association", "[", 
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"\"\<Tokens\>\"", "->", "tokens"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"\"\<Curr\>\"", " ", "->", "1"}]}], "\[IndentingNewLine]", 
+       "}"}], "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Pasrer_", " ", 
+     RowBox[{"(", 
+      RowBox[{"prefixi", " ", "as", " ", "name", " ", "space"}], ")"}]}], 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{
+      "ParserAdvance", ",", "\[IndentingNewLine]", "ParserExpect", ",", 
+       "\[IndentingNewLine]", "ParserMatch", ",", "\[IndentingNewLine]", 
+       "ParsePrimary"}], "\[IndentingNewLine]", "}"}], ",", "HoldFirst"}], 
+    "]"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParserAdvance", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParserAdvance", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", "token", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"token", "=", 
+         RowBox[{
+          RowBox[{"self", "[", "\"\<Tokens\>\"", "]"}], "[", 
+          RowBox[{"[", 
+           RowBox[{"self", "[", "\"\<Curr\>\"", "]"}], "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"self", "[", "\"\<Curr\>\"", "]"}], "++"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "token", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParserPeek", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", "token", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"token", "=", 
+         RowBox[{
+          RowBox[{"self", "[", "\"\<Tokens\>\"", "]"}], "[", 
+          RowBox[{"[", 
+           RowBox[{"self", "[", "\"\<Curr\>\"", "]"}], "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "token", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", "ParserNextQ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParserIsNext", "[", 
+      RowBox[{"self_", ",", "expected_"}], "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", "token", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", "\[IndentingNewLine]", 
+        RowBox[{"(*", ">", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"self", "[", "\"\<Curr\>\"", "]"}], ">", 
+          RowBox[{"Length", "[", 
+           RowBox[{"self", "[", "\"\<Tokens\>\"", "]"}], "]"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"Return", "[", "False", "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"Return", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"ParserPeek", "[", "self", "]"}], 
+            "[", "\"\<Token_Type\>\"", "]"}], "===", "expected"}], "]"}]}], 
+        "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", "]"}]}], ";"}],
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ParserPreviousToken", "[", "self_", "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Return", "[", 
+        RowBox[{
+         RowBox[{"self", "[", "\"\<Tokens\>\"", "]"}], "[", 
+         RowBox[{"[", 
+          RowBox[{
+           RowBox[{"self", "[", "\"\<Curr\>\"", "]"}], "-", "1"}], "]"}], 
+         "]"}], "]"}], ";"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParserExpect", "[", 
+      RowBox[{"self_", ",", "expected_"}], "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", "token", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"Which", "[", "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{">", " ", "TODO"}], "*)"}], "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"self", "[", "\"\<Curr\>\"", "]"}], ">", 
+          RowBox[{"Length", "[", 
+           RowBox[{"self", "[", "\"\<Tokens\>\"", "]"}], "]"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Message", "[", 
+           RowBox[{
+            RowBox[{"ParserError", "::", "found"}], ",", 
+            RowBox[{
+             RowBox[{"ParserPreviousToken", "[", "self", "]"}], 
+             "[", "\"\<Lexeme\>\"", "]"}], ",", 
+            RowBox[{
+             RowBox[{"ParserPreviousToken", "[", "self", "]"}], 
+             "[", "\"\<Line\>\"", "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"Abort", "[", "]"}]}], ",", "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"ParserPeek", "[", "self", "]"}], "[", "\"\<Token_Type\>\"",
+            "]"}], "===", "expected"}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"token", "=", 
+           RowBox[{"ParserAdvance", "[", "self", "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", "token", "]"}]}], ",", "\[IndentingNewLine]",
+          "\[IndentingNewLine]", "True", ",", "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Message", "[", 
+           RowBox[{
+            RowBox[{"ParserError", "::", "\"\<expect\>\""}], ",", 
+            RowBox[{"expected", "<>", "\"\< \>\"", "<>", 
+             RowBox[{
+              RowBox[{"ParserPeek", "[", "self", "]"}], "[", "\"\<Lexeme\>\"",
+               "]"}]}], ",", 
+            RowBox[{
+             RowBox[{"ParserPeek", "[", "self", "]"}], "[", "\"\<Line\>\"", 
+             "]"}]}], "]"}], ";", 
+          RowBox[{"Abort", "[", "]"}]}]}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", "]"}]}], ";"}],
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParserMatch", "[", 
+      RowBox[{"self_", ",", "expected_"}], "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", "\[IndentingNewLine]", 
+         RowBox[{"(*", ">", "*)"}], "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"self", "[", "\"\<Curr\>\"", "]"}], ">", 
+           RowBox[{"Length", "[", 
+            RowBox[{"self", "[", "\"\<Tokens\>\"", "]"}], "]"}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", "False", "]"}]}], "\[IndentingNewLine]", 
+         "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"ParserPeek", "[", "self", "]"}], 
+            "[", "\"\<Token_Type\>\"", "]"}], "=!=", "expected"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", "False", "]"}]}], "\[IndentingNewLine]", 
+         "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"self", "[", "\"\<Curr\>\"", "]"}], "++"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "True", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"===", "===", "===", "===", "===", "===", "===", "==="}], "="}], 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+   "(*", "\[IndentingNewLine]", "\"\<\n  <primary>  ::=  <integer>\n          \
+      |  <float>\n                |  <bool>\n                |  <string>\n    \
+            |  <identifier>\n                | '(' <expr> ')'\n\>\"", 
+    "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParsePrimary", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"previous", ",", "expr", ",", "identifier", ",", "args"}], 
+        "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"Which", "[", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{"--", 
+          RowBox[{"--", 
+           RowBox[{"--", 
+            RowBox[{"--", 
+             RowBox[{"--", 
+              RowBox[{"--", 
+               RowBox[{"--", 
+                RowBox[{"--", 
+                 RowBox[{"--", 
+                  RowBox[{"--", 
+                   RowBox[{"--", "-"}]}]}]}]}]}]}]}]}]}]}], "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"ParserMatch", "[", 
+          RowBox[{"self", ",", "\"\<TOK_INTEGER\>\""}], "]"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"previous", "=", 
+           RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", "\[IndentingNewLine]", 
+           RowBox[{"IntegerObj", "[", 
+            RowBox[{
+             RowBox[{"ToExpression", "[", 
+              RowBox[{"previous", "[", "\"\<Lexeme\>\"", "]"}], "]"}], ",", 
+             RowBox[{"previous", "[", "\"\<Line\>\"", "]"}]}], "]"}], 
+           "\[IndentingNewLine]", "]"}]}], ",", "\[IndentingNewLine]", 
+         RowBox[{"(*", 
+          RowBox[{"--", 
+           RowBox[{"--", 
+            RowBox[{"--", 
+             RowBox[{"--", 
+              RowBox[{"--", 
+               RowBox[{"--", 
+                RowBox[{"--", 
+                 RowBox[{"--", 
+                  RowBox[{"--", 
+                   RowBox[{"--", 
+                    RowBox[{"--", "-"}]}]}]}]}]}]}]}]}]}]}], "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{"ParserMatch", "[", 
+          RowBox[{"self", ",", "\"\<TOK_FLOAT\>\""}], "]"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"previous", "=", 
+           RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", "\[IndentingNewLine]", 
+           RowBox[{"FloatObj", "[", 
+            RowBox[{
+             RowBox[{"ToExpression", "[", 
+              RowBox[{"previous", "[", "\"\<Lexeme\>\"", "]"}], "]"}], ",", 
+             RowBox[{"previous", "[", "\"\<Line\>\"", "]"}]}], "]"}], 
+           "\[IndentingNewLine]", "]"}]}], ",", "\[IndentingNewLine]", 
+         RowBox[{"(*", 
+          RowBox[{"--", 
+           RowBox[{"--", 
+            RowBox[{"--", 
+             RowBox[{"--", 
+              RowBox[{"--", 
+               RowBox[{"--", 
+                RowBox[{"--", 
+                 RowBox[{"--", 
+                  RowBox[{"--", 
+                   RowBox[{"--", 
+                    RowBox[{"--", "-"}]}]}]}]}]}]}]}]}]}]}], "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{"ParserMatch", "[", 
+          RowBox[{"self", ",", "TRUE"}], "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"previous", "=", 
+           RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", "\[IndentingNewLine]", 
+           RowBox[{"BoolObj", "[", 
+            RowBox[{"True", ",", 
+             RowBox[{"previous", "[", "\"\<Line\>\"", "]"}]}], "]"}], 
+           "\[IndentingNewLine]", "]"}]}], ",", "\[IndentingNewLine]", 
+         RowBox[{"(*", 
+          RowBox[{"--", 
+           RowBox[{"--", 
+            RowBox[{"--", 
+             RowBox[{"--", 
+              RowBox[{"--", 
+               RowBox[{"--", 
+                RowBox[{"--", 
+                 RowBox[{"--", 
+                  RowBox[{"--", 
+                   RowBox[{"--", 
+                    RowBox[{"--", "-"}]}]}]}]}]}]}]}]}]}]}], "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{"ParserMatch", "[", 
+          RowBox[{"self", ",", "FALSE"}], "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"previous", "=", 
+           RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", 
+           RowBox[{"BoolObj", "[", 
+            RowBox[{"False", ",", 
+             RowBox[{"previous", "[", "\"\<Line\>\"", "]"}]}], "]"}], "]"}]}],
+          ",", "\[IndentingNewLine]", 
+         RowBox[{"(*", 
+          RowBox[{"--", 
+           RowBox[{"--", 
+            RowBox[{"--", 
+             RowBox[{"--", 
+              RowBox[{"--", 
+               RowBox[{"--", 
+                RowBox[{"--", 
+                 RowBox[{"--", 
+                  RowBox[{"--", 
+                   RowBox[{"--", 
+                    RowBox[{"--", "-"}]}]}]}]}]}]}]}]}]}]}], "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{"ParserMatch", "[", 
+          RowBox[{"self", ",", "\"\<TOK_STRING\>\""}], "]"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"previous", "=", 
+           RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", "\[IndentingNewLine]", 
+           RowBox[{"StringObj", "[", 
+            RowBox[{
+             RowBox[{"StringTake", "[", 
+              RowBox[{
+               RowBox[{"previous", "[", "\"\<Lexeme\>\"", "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"2", ",", 
+                 RowBox[{
+                  RowBox[{"StringLength", "[", 
+                   RowBox[{"previous", "[", "\"\<Lexeme\>\"", "]"}], "]"}], "-",
+                   "1"}]}], "}"}]}], "]"}], ",", 
+             RowBox[{"previous", "[", "\"\<Line\>\"", "]"}]}], "]"}], 
+           "\[IndentingNewLine]", "]"}]}], ",", "\[IndentingNewLine]", 
+         RowBox[{"(*", 
+          RowBox[{"--", 
+           RowBox[{"--", 
+            RowBox[{"--", 
+             RowBox[{"--", 
+              RowBox[{"--", 
+               RowBox[{"--", 
+                RowBox[{"--", 
+                 RowBox[{"--", 
+                  RowBox[{"--", 
+                   RowBox[{"--", 
+                    RowBox[{"--", "-"}]}]}]}]}]}]}]}]}]}]}], "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{"ParserMatch", "[", 
+          RowBox[{"self", ",", "\"\<TOK_LPAREN\>\""}], "]"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"expr", "=", 
+           RowBox[{"ParseExpr", "[", "self", "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"Not", "[", 
+             RowBox[{"ParserMatch", "[", 
+              RowBox[{"self", ",", "\"\<TOK_RPAREN\>\""}], "]"}], "]"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"Message", "[", 
+              RowBox[{
+               RowBox[{"ParserError", "::", "\"\<expect\>\""}], 
+               ",", "\"\<)\>\"", ",", 
+               RowBox[{
+                RowBox[{"ParserPeek", "[", "self", "]"}], "[", "\"\<Line\>\"",
+                 "]"}]}], "]"}], ";", 
+             RowBox[{"Abort", "[", "]"}]}], ",", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"previous", "=", 
+              RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Return", "[", "\[IndentingNewLine]", 
+              RowBox[{"GroupingObj", "[", 
+               RowBox[{"expr", ",", 
+                RowBox[{"previous", "[", "\"\<Line\>\"", "]"}]}], "]"}], 
+              "]"}]}]}], "\[IndentingNewLine]", "]"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"(*", 
+          RowBox[{"--", 
+           RowBox[{"--", 
+            RowBox[{"--", 
+             RowBox[{"--", 
+              RowBox[{"--", 
+               RowBox[{"--", 
+                RowBox[{"--", 
+                 RowBox[{"--", 
+                  RowBox[{"--", 
+                   RowBox[{"--", 
+                    RowBox[{"--", "-"}]}]}]}]}]}]}]}]}]}]}], "*)"}], 
+         "\[IndentingNewLine]", "True", ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"identifier", "=", 
+           RowBox[{"ParserExpect", "[", 
+            RowBox[{"self", ",", "\"\<TOK_IDENTIFIER\>\""}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "\"\<TOK_LPAREN\>\""}], "]"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"args", "=", 
+              RowBox[{"ParseArgs", "[", "self", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"ParserExpect", "[", 
+              RowBox[{"self", ",", "\"\<TOK_RPAREN\>\""}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Return", "[", 
+              RowBox[{"FuncCallObj", "[", 
+               RowBox[{
+                RowBox[{"identifier", "[", "\"\<Lexeme\>\"", "]"}], ",", 
+                "args", ",", 
+                RowBox[{
+                 RowBox[{"ParserPreviousToken", "[", "self", "]"}], 
+                 "[", "\"\<Line\>\"", "]"}]}], "]"}], "]"}]}], 
+            "\[IndentingNewLine]", ",", "\[IndentingNewLine]", 
+            RowBox[{"Return", "[", 
+             RowBox[{"IdentifierObj", "[", 
+              RowBox[{
+               RowBox[{"identifier", "[", "\"\<Lexeme\>\"", "]"}], ",", 
+               RowBox[{
+                RowBox[{"ParserPreviousToken", "[", "self", "]"}], 
+                "[", "\"\<Line\>\"", "]"}]}], "]"}], "]"}]}], 
+           "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", "]"}]}], ";"}],
+    "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"<", "unary", ">", "  ", "::"}], "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"'", "+", "'"}], "|", 
+         RowBox[{"'", "-", "'"}], "|", 
+         RowBox[{
+          RowBox[{"'", "~"}], "'"}]}], ")"}], "<", "unary", ">"}], "  ", "|", 
+      "  ", 
+      RowBox[{"<", "primary", ">"}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseUnary", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseUnary", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"op", ",", "operand"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"Or", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "\"\<TOK_NOT\>\""}], "]"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "\"\<TOK_MINUS\>\""}], "]"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "\"\<TOK_PLUS\>\""}], "]"}]}], "]"}], ",", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"op", "=", 
+            RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"operand", "=", 
+            RowBox[{"ParseUnary", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"Return", "[", " ", 
+            RowBox[{"UnOpObj", "[", 
+             RowBox[{"op", ",", "operand", ",", 
+              RowBox[{"op", "[", "\"\<Line\>\"", "]"}]}], "]"}], "]"}]}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"ParsePrimary", "[", "self", "]"}], "]"}]}]}], 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"\"\<\n<exponent> ::= <unary> ( \>\"", 
+     "^", "\"\< <unary> )*\n\>\""}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseExponent", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseExponent", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"expr", ",", "op", ",", "right"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"expr", "=", 
+         RowBox[{"ParseUnary", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"While", "[", 
+         RowBox[{
+          RowBox[{"Or", "[", "\[IndentingNewLine]", 
+           RowBox[{"ParserMatch", "[", 
+            RowBox[{"self", ",", "CARET"}], "]"}], "\[IndentingNewLine]", 
+           "]"}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"op", "=", 
+            RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"right", "=", 
+            RowBox[{"ParseExponent", "[", "self", "]"}]}], ";", 
+           RowBox[{"(*", 
+            RowBox[{"left", " ", "associativity"}], "*)"}], 
+           "\[IndentingNewLine]", 
+           RowBox[{"(*", 
+            RowBox[{
+             RowBox[{"right", "=", 
+              RowBox[{"ParseUnary", "[", "self", "]"}]}], ";"}], " ", "*)"}], 
+           RowBox[{"(*", 
+            RowBox[{"left", " ", "associativity"}], "*)"}], 
+           "\[IndentingNewLine]", 
+           RowBox[{"expr", "=", 
+            RowBox[{"BinOpObj", "[", 
+             RowBox[{"op", ",", "expr", ",", "right", ",", 
+              RowBox[{"op", "[", "\"\<Line\>\"", "]"}]}], "]"}]}]}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "expr", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"\"\<\n<modulo> ::= <exponent> ( \>\"", 
+     "%", "\"\< <exponent> )*\n\>\""}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseModulo", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseModulo", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"expr", ",", "op", ",", "right"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"expr", "=", 
+         RowBox[{"ParseExponent", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"While", "[", 
+         RowBox[{
+          RowBox[{"Or", "[", "\[IndentingNewLine]", 
+           RowBox[{"ParserMatch", "[", 
+            RowBox[{"self", ",", "MOD"}], "]"}], "]"}], ",", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"op", "=", 
+            RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"right", "=", 
+            RowBox[{"ParseExponent", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"expr", "=", 
+            RowBox[{"BinOpObj", "[", 
+             RowBox[{"op", ",", "expr", ",", "right", ",", 
+              RowBox[{"op", "[", "\"\<Line\>\"", "]"}]}], "]"}]}]}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "expr", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+   "(*", "\"\<\n<multiplication>  ::=  <modulo>(('*'|'/')<modulo>)*\n\>\"", 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseMultiplication", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseMultiplication", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"expr", ",", "op", ",", "right"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"expr", "=", 
+         RowBox[{"ParseModulo", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"While", "[", 
+         RowBox[{
+          RowBox[{"Or", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "STAR"}], "]"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "SLASH"}], "]"}]}], "]"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"op", "=", 
+            RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"right", "=", 
+            RowBox[{"ParseModulo", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"expr", "=", 
+            RowBox[{"BinOpObj", "[", 
+             RowBox[{"op", ",", "expr", ",", "right", ",", 
+              RowBox[{"op", "[", "\"\<Line\>\"", "]"}]}], "]"}]}]}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "expr", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+   "(*", "\"\<\n<addition>  ::=  <multiplication> ( ('+'|'-') \
+<multiplication> )*\n\>\"", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseAddition", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseAddition", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"expr", ",", "op", ",", "right"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"expr", "=", 
+         RowBox[{"ParseMultiplication", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"While", "[", 
+         RowBox[{
+          RowBox[{"Or", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "PLUS"}], "]"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "MINUS"}], "]"}]}], "]"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"op", "=", 
+            RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"right", "=", 
+            RowBox[{"ParseMultiplication", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"expr", "=", 
+            RowBox[{"BinOpObj", "[", 
+             RowBox[{"op", ",", "expr", ",", "right", ",", 
+              RowBox[{"op", "[", "\"\<Line\>\"", "]"}]}], "]"}]}]}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "expr", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"\"\<\n<comparison> ::= <addition> (( \>\"", ">", "\"\< | \>\"", 
+     ">=", "\"\< | \>\"", "<", "\"\< | \>\"", 
+     "<=", "\"\< ) <addition>)*\n\>\""}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseComparison", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseComparison", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"expr", ",", "op", ",", "right"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"expr", "=", 
+         RowBox[{"ParseAddition", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"While", "[", 
+         RowBox[{
+          RowBox[{"Or", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "GT"}], "]"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "GE"}], "]"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "LT"}], "]"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "LE"}], "]"}]}], "]"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"op", "=", 
+            RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"right", "=", 
+            RowBox[{"ParseAddition", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"expr", "=", 
+            RowBox[{"BinOpObj", "[", 
+             RowBox[{"op", ",", "expr", ",", "right", ",", 
+              RowBox[{"op", "[", "\"\<Line\>\"", "]"}]}], "]"}]}]}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "expr", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"\"\<\n<equality>  ::=  <comparison> ( ( \>\"", "~"}], "=", 
+     RowBox[{"\"\< | \>\"", "==", "\"\< ) <comparison> )*\n\>\""}]}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseEquality", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseEquality", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"expr", ",", "op", ",", "right"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"expr", "=", 
+         RowBox[{"ParseComparison", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"While", "[", 
+         RowBox[{
+          RowBox[{"Or", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "NE"}], "]"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "EQEQ"}], "]"}]}], "]"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"op", "=", 
+            RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"right", "=", 
+            RowBox[{"ParseComparison", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"expr", "=", 
+            RowBox[{"BinOpObj", "[", 
+             RowBox[{"op", ",", "expr", ",", "right", ",", 
+              RowBox[{"op", "[", "\"\<Line\>\"", "]"}]}], "]"}]}]}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "expr", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"\"\<\n<logical_and> ::= <equality> ( \>\"", 
+     "and", "\"\< <equality> )*\n\>\""}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseLogicaAnd", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseLogicaAnd", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"expr", ",", "op", ",", "right"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"expr", "=", 
+         RowBox[{"ParseEquality", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"While", "[", 
+         RowBox[{
+          RowBox[{"ParserMatch", "[", 
+           RowBox[{"self", ",", "AND"}], "]"}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"op", "=", 
+            RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"right", "=", 
+            RowBox[{"ParseEquality", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"expr", "=", 
+            RowBox[{"LogicalOpObj", "[", 
+             RowBox[{"op", ",", "expr", ",", "right", ",", 
+              RowBox[{"op", "[", "\"\<Line\>\"", "]"}]}], "]"}]}]}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "expr", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"\"\<\n<logical_or> ::= <logical_and> ( \>\"", 
+     "or", "\"\< <logical_and> )*\n\>\""}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseLogicalOr", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseLogicalOr", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"expr", ",", "op", ",", "right"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"expr", "=", 
+         RowBox[{"ParseLogicaAnd", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"While", "[", 
+         RowBox[{
+          RowBox[{"ParserMatch", "[", 
+           RowBox[{"self", ",", "OR"}], "]"}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"op", "=", 
+            RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"right", "=", 
+            RowBox[{"ParseLogicaAnd", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"expr", "=", 
+            RowBox[{"LogicalOpObj", "[", 
+             RowBox[{"op", ",", "expr", ",", "right", ",", 
+              RowBox[{"op", "[", "\"\<Line\>\"", "]"}]}], "]"}]}]}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "expr", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseExpr", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ParseExpr", "[", "self_", "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Return", "[", 
+       RowBox[{"ParseLogicalOr", "[", "self", "]"}], "]"}]}], 
+     "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "=="}], 
+    "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParsePrintStmt", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParsePrintStmt", "[", 
+      RowBox[{"self_", ",", 
+       RowBox[{"end_", ":", "\"\<\>\""}]}], "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"stmt", ",", "val"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"Or", "[", 
+           RowBox[{
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "PRINT"}], "]"}], ",", 
+            RowBox[{"ParserMatch", "[", 
+             RowBox[{"self", ",", "PRINTLN"}], "]"}]}], "]"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"val", "=", 
+            RowBox[{"ParseExpr", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"stmt", "=", 
+            RowBox[{"PrintStmtObj", "[", 
+             RowBox[{"val", ",", "end", ",", 
+              RowBox[{"ParserPreviousToken", "[", "self", "]"}]}], "]"}]}], ";",
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           RowBox[{"Return", "[", "stmt", "]"}]}]}], "\[IndentingNewLine]", 
+         "]"}], ";"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"<", "if_stmt", ">", "  ", "::"}], "=", 
+     RowBox[{"\"\<if\>\"", "<", "expr", ">", "\"\<then\>\"", "<", "stmts", ">", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"\"\<else\>\"", "<", "stmts", ">"}], ")"}], 
+       "?", "\"\<end\>\""}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseIfStmt", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseIfStmt", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"test", ",", "thenStmts", ",", "elseStmts"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_IF\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"test", "=", 
+         RowBox[{"ParseExpr", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_THEN\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"thenStmts", "=", 
+         RowBox[{"ParseStmts", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"ParserIsNext", "[", 
+           RowBox[{"self", ",", "\"\<TOK_ELSE\>\""}], "]"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"ParserAdvance", "[", "self", "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"elseStmts", "=", 
+            RowBox[{"ParseStmts", "[", "self", "]"}]}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(*", "else", "*)"}], "\[IndentingNewLine]", 
+          RowBox[{"elseStmts", "=", "None"}]}], "\[IndentingNewLine]", "]"}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_END\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"IfStmtObj", "[", 
+          RowBox[{"test", ",", "thenStmts", ",", "elseStmts", ",", 
+           RowBox[{
+            RowBox[{"ParserPreviousToken", "[", "self", "]"}], 
+            "[", "\"\<Line\>\"", "]"}]}], "]"}], "]"}]}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"<", "while_stmt", ">", "  ", "::"}], "=", 
+     RowBox[{"\"\<while\>\"", "<", "expr", ">", "\"\<do\>\"", "<", "stmts", 
+      ">", "\"\<end\>\""}]}], "\[IndentingNewLine]", "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseWhileStmt", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseWhileStmt", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"test", ",", "bodyStmts"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_WHILE\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"test", "=", 
+         RowBox[{"ParseExpr", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_DO\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"bodyStmts", "=", 
+         RowBox[{"ParseStmts", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_END\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"WhileStmtObj", "[", 
+          RowBox[{"test", ",", "bodyStmts", ",", 
+           RowBox[{
+            RowBox[{"ParserPreviousToken", "[", "self", "]"}], 
+            "[", "\"\<Line\>\"", "]"}]}], "]"}], "]"}]}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", "\[IndentingNewLine]", " ", 
+    RowBox[{
+     RowBox[{"<", "for_stmt", ">", "  ", "::"}], "=", 
+     RowBox[{"\"\<for\>\"", "<", "identifier", ">", "\"\<:=\>\"", "<", 
+      "start", ">", "\"\<,\>\"", "<", "end", ">", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"\"\<,\>\"", "<", "step", ">"}], ")"}], "?", "\"\<do\>\""}], "<",
+       "body_stmts", ">", "\"\<end\>\""}]}], "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseForStmt", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseForStmt", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"identifier", ",", "start", ",", "end", ",", 
+         RowBox[{"step", "=", "None"}], ",", "\[IndentingNewLine]", 
+         "bodystmts"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_FOR\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"identifier", "=", 
+         RowBox[{"ParsePrimary", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_ASSIGN\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"start", "=", 
+         RowBox[{"ParseExpr", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_COMMA\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"end", "=", 
+         RowBox[{"ParseExpr", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"ParserIsNext", "[", 
+           RowBox[{"self", ",", "\"\<TOK_COMMA\>\""}], "]"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"ParserAdvance", "[", "self", "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"step", "=", 
+            RowBox[{"ParseExpr", "[", "self", "]"}]}]}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_DO\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"bodystmts", "=", 
+         RowBox[{"ParseStmts", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_END\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"ForStmtObj", "[", 
+          RowBox[{
+          "identifier", ",", "start", ",", "end", ",", "step", ",", 
+           "bodystmts", ",", 
+           RowBox[{
+            RowBox[{"ParserPreviousToken", "[", "self", "]"}], 
+            "[", "\"\<Line\>\"", "]"}]}], "]"}], "]"}]}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseArgs", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseArgs", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", "args", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"args", "=", 
+         RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"While", "[", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Not", "[", 
+           RowBox[{"ParserIsNext", "[", 
+            RowBox[{"self", ",", "\"\<TOK_RPAREN\>\""}], "]"}], "]"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"AppendTo", "[", 
+            RowBox[{"args", ",", 
+             RowBox[{"ParseExpr", "[", "self", "]"}]}], "\[IndentingNewLine]",
+             "]"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"Not", "[", 
+              RowBox[{"ParserIsNext", "[", 
+               RowBox[{"self", ",", "\"\<TOK_RPAREN\>\""}], "]"}], "]"}], ",",
+              "\[IndentingNewLine]", 
+             RowBox[{"ParserExpect", "[", 
+              RowBox[{"self", ",", "\"\<TOK_COMMA\>\""}], "]"}]}], 
+            "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "args", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseParams", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseParams", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"params", ",", "numparams", ",", "name"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"params", "=", 
+         RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"numparams", "=", "0"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"While", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Not", "[", 
+           RowBox[{"ParserIsNext", "[", 
+            RowBox[{"self", ",", "\"\<TOK_RPAREN\>\""}], "]"}], "]"}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"name", "=", 
+            RowBox[{"ParserExpect", "[", 
+             RowBox[{"self", ",", "\"\<TOK_IDENTIFIER\>\""}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"numparams", "+=", "1"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"If", "[", " ", 
+            RowBox[{
+             RowBox[{"numparams", ">", "255"}], ",", "\[IndentingNewLine]", 
+             RowBox[{"Message", "[", 
+              RowBox[{
+               RowBox[{"ParserError", "::", "args"}], " ", ",", 
+               RowBox[{
+                RowBox[{"ParserPreviousToken", "[", "self", "]"}], 
+                "[", "\"\<Line\>\"", "]"}]}], "]"}]}], "\[IndentingNewLine]", 
+            "]"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"AppendTo", "[", 
+            RowBox[{"params", ",", "\[IndentingNewLine]", 
+             RowBox[{"ParamObj", "[", 
+              RowBox[{
+               RowBox[{"name", "[", "\"\<Lexeme\>\"", "]"}], ",", 
+               RowBox[{
+                RowBox[{"ParserPreviousToken", "[", "self", "]"}], 
+                "[", "\"\<Line\>\"", "]"}]}], "]"}]}], "\[IndentingNewLine]", 
+            "]"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"Not", "[", 
+              RowBox[{"ParserIsNext", "[", 
+               RowBox[{"self", ",", "\"\<TOK_RPAREN\>\""}], "]"}], "]"}], ",", 
+             RowBox[{"ParserExpect", "[", 
+              RowBox[{"self", ",", "\"\<TOK_COMMA\>\""}], "]"}]}], "]"}], 
+           ";"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "params", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseFuncDecl", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseFuncDecl", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"name", ",", "params", ",", "bodystmts"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_FUNC\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"name", "=", 
+         RowBox[{"ParserExpect", "[", 
+          RowBox[{"self", ",", "\"\<TOK_IDENTIFIER\>\""}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_LPAREN\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"params", "=", 
+         RowBox[{"ParseParams", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_RPAREN\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"bodystmts", "=", 
+         RowBox[{"ParseStmts", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_END\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"FuncDeclObj", "[", 
+          RowBox[{
+           RowBox[{"name", "[", "\"\<Lexeme\>\"", "]"}], ",", "params", ",", 
+           "bodystmts", ",", 
+           RowBox[{
+            RowBox[{"ParserPreviousToken", "[", "self", "]"}], 
+            "[", "\"\<Line\>\"", "]"}]}], "]"}], "]"}], ";"}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseRetStmt", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseRetStmt", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", "value", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_RET\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"value", "=", 
+         RowBox[{"ParseExpr", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", " ", "[", 
+         RowBox[{"RetStmtObj", "[", 
+          RowBox[{"value", ",", 
+           RowBox[{
+            RowBox[{"ParserPreviousToken", "[", "self", "]"}], 
+            "[", "\"\<Line\>\"", "]"}]}], "]"}], "]"}]}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseLocalAssignment", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseLocalAssignment", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"left", ",", "right"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_LOCAL\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"left", "=", 
+         RowBox[{"ParseExpr", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"ParserExpect", "[", 
+         RowBox[{"self", ",", "\"\<TOK_ASSIGN\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"right", "=", 
+         RowBox[{"ParseExpr", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", " ", "[", 
+         RowBox[{"LocalAssignmentObj", "[", 
+          RowBox[{"left", ",", "right", ",", 
+           RowBox[{
+            RowBox[{"ParserPreviousToken", "[", "self", "]"}], 
+            "[", "\"\<Line\>\"", "]"}]}], "]"}], "]"}]}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseStmt", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseStmt", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"tokentype", ",", "left", ",", "right"}], "}"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"tokentype", "=", 
+         RowBox[{
+          RowBox[{"ParserPeek", "[", "self", "]"}], "[", "\"\<Token_Type\>\"",
+           "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Which", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"tokentype", "==", "\"\<TOK_PRINT\>\""}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", 
+           RowBox[{"ParsePrintStmt", "[", "self", "]"}], "]"}], ",", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"tokentype", "==", "\"\<TOK_PRINTLN\>\""}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", 
+           RowBox[{"ParsePrintStmt", "[", 
+            RowBox[{"self", ",", "\"\<\\\\n\>\""}], "]"}], "]"}], ",", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"tokentype", "==", "\"\<TOK_IF\>\""}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", 
+           RowBox[{"ParseIfStmt", "[", "self", "]"}], "]"}], ",", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"tokentype", "==", "\"\<TOK_WHILE\>\""}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", 
+           RowBox[{"ParseWhileStmt", "[", "self", "]"}], "]"}], ",", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"tokentype", "==", "\"\<TOK_FOR\>\""}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", 
+           RowBox[{"ParseForStmt", "[", "self", "]"}], "]"}], ",", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"tokentype", "==", "\"\<TOK_FUNC\>\""}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", 
+           RowBox[{"ParseFuncDecl", "[", "self", "]"}], "]"}], ",", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"tokentype", "==", "\"\<TOK_RET\>\""}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", 
+           RowBox[{"ParseRetStmt", "[", "self", "]"}], "]"}], ",", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"tokentype", " ", "==", " ", "\"\<TOK_LOCAL\>\""}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", 
+           RowBox[{"ParseLocalAssignment", "[", "self", "]"}], "]"}], ",", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]",
+           "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]",
+           "\[IndentingNewLine]", "\[IndentingNewLine]", "True", ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"left", "=", 
+            RowBox[{"ParseExpr", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"If", "[", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"ParserMatch", "[", 
+              RowBox[{"self", ",", "\"\<TOK_ASSIGN\>\""}], "]"}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"right", "=", 
+               RowBox[{"ParseExpr", "[", "self", "]"}]}], ";", 
+              "\[IndentingNewLine]", 
+              RowBox[{"Return", "[", 
+               RowBox[{"AssignmentObj", "[", 
+                RowBox[{"left", ",", "right", ",", 
+                 RowBox[{
+                  RowBox[{"ParserPreviousToken", "[", "self", "]"}], 
+                  "[", "\"\<Line\>\"", "]"}]}], "]"}], "]"}]}], 
+             "\[IndentingNewLine]", ",", 
+             RowBox[{"(*", "else", "*)"}], "\[IndentingNewLine]", 
+             RowBox[{"Return", "[", 
+              RowBox[{"FuncCallStmtObj", "[", "left", "]"}], "]"}]}], 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseStmts", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseStmts", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"stmts", ",", "stmt"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"stmts", "=", 
+         RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"While", "[", 
+         RowBox[{
+          RowBox[{"And", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"self", "[", "\"\<Curr\>\"", "]"}], "<=", 
+             RowBox[{"Length", "[", 
+              RowBox[{"self", "[", "\"\<Tokens\>\"", "]"}], "]"}]}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Not", "[", 
+             RowBox[{"ParserIsNext", "[", 
+              RowBox[{"self", ",", "\"\<TOK_ELSE\>\""}], "]"}], "]"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"Not", "[", 
+             RowBox[{"ParserIsNext", "[", 
+              RowBox[{"self", ",", "\"\<TOK_END\>\""}], "]"}], "]"}]}], 
+           "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"stmt", "=", 
+            RowBox[{"ParseStmt", "[", "self", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"AppendTo", "[", 
+            RowBox[{"stmts", ",", "stmt"}], "]"}]}]}], "\[IndentingNewLine]", 
+         "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"StmtsObj", "[", "stmts", "]"}], "]"}]}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"ParseProgram", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ParseProgram", "[", "self_", "]"}], ":=", 
+     RowBox[{"Block", "[", 
+      RowBox[{
+       RowBox[{"{", "stmts", "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"stmts", "=", 
+         RowBox[{"ParseStmts", "[", "self", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", "stmts", "]"}]}]}], "\[IndentingNewLine]", 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"Parse", ",", "HoldFirst"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Parse", "[", "self_", "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", "ast", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"ast", "=", 
+        RowBox[{"ParseProgram", "[", "self", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Return", "[", "ast", "]"}]}]}], "\[IndentingNewLine]", 
+     "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.9722041281575127`*^9, 3.972204235377529*^9}, {
+   3.9722042857326393`*^9, 3.972204309882227*^9}, {3.9722043557054977`*^9, 
+   3.972204385365799*^9}, {3.972204513161129*^9, 3.9722047448324776`*^9}, {
+   3.9722048065498695`*^9, 3.972204811213253*^9}, {3.97220504228594*^9, 
+   3.9722050993641033`*^9}, {3.9722051932181244`*^9, 3.972205203465851*^9}, {
+   3.972205931833067*^9, 3.972205969824934*^9}, {3.9722060024362717`*^9, 
+   3.972206141754738*^9}, {3.9722061878080807`*^9, 3.9722062300027065`*^9}, 
+   3.9722062720866756`*^9, {3.9722063207379*^9, 3.972206335359804*^9}, {
+   3.9722068538897038`*^9, 3.972206882858509*^9}, {3.972206922686243*^9, 
+   3.972207053752407*^9}, {3.972207109013159*^9, 3.972207116097992*^9}, {
+   3.9722071463190575`*^9, 3.9722072954366055`*^9}, 3.972207342928032*^9, {
+   3.9722076599419193`*^9, 3.9722076606936073`*^9}, {3.972207721255945*^9, 
+   3.9722077498025703`*^9}, {3.972207839863655*^9, 3.9722080007847385`*^9}, {
+   3.972208194178339*^9, 3.9722082325896854`*^9}, {3.972208265328064*^9, 
+   3.97220835294442*^9}, {3.972208403323841*^9, 3.972208406894701*^9}, {
+   3.972208661443863*^9, 3.9722086790005703`*^9}, 3.972208805204918*^9, {
+   3.9722090745401764`*^9, 3.9722091374122524`*^9}, {3.9722092113972073`*^9, 
+   3.972209277053873*^9}, {3.9722094216492805`*^9, 3.9722095064756374`*^9}, {
+   3.972209725031395*^9, 3.972209747902952*^9}, 3.9722097900521946`*^9, {
+   3.972210343972044*^9, 3.972210373834812*^9}, {3.972210451977024*^9, 
+   3.9722104881453705`*^9}, {3.972210527488369*^9, 3.9722106491920376`*^9}, {
+   3.972210839409258*^9, 3.972210848495556*^9}, {3.9722109707940483`*^9, 
+   3.9722110067654457`*^9}, {3.9722111515569286`*^9, 3.972211154693552*^9}, {
+   3.9722113310035515`*^9, 3.972211348973173*^9}, {3.9722114616882744`*^9, 
+   3.9722114641368027`*^9}, {3.972211641885811*^9, 3.972211703606003*^9}, {
+   3.9722118477951927`*^9, 3.972211858524786*^9}, {3.9722119790996857`*^9, 
+   3.9722119820819263`*^9}, {3.9722381268154163`*^9, 
+   3.9722381532537403`*^9}, {3.9722385772099323`*^9, 
+   3.9722388440409527`*^9}, {3.9722388796956024`*^9, 3.972238895047365*^9}, {
+   3.9722389376677837`*^9, 3.972238947552353*^9}, {3.9722391689604473`*^9, 
+   3.9722391787886887`*^9}, {3.9722394762680264`*^9, 3.972239626088024*^9}, {
+   3.9722396720665245`*^9, 3.9722398773320503`*^9}, {3.972239911609455*^9, 
+   3.972239918727852*^9}, {3.972243457379118*^9, 3.972243543606928*^9}, {
+   3.972243606963751*^9, 3.972243698186554*^9}, {3.9722437341290684`*^9, 
+   3.97224427906662*^9}, {3.972244418793585*^9, 3.972244707051817*^9}, {
+   3.9722447553788815`*^9, 3.9722448153472424`*^9}, {3.972244951139311*^9, 
+   3.9722452189513855`*^9}, {3.972245369077408*^9, 3.9722453785411644`*^9}, {
+   3.972245574611107*^9, 3.972245576405016*^9}, {3.9722458733050156`*^9, 
+   3.972246121815447*^9}, 3.9722904996149197`*^9, {3.9722905953060226`*^9, 
+   3.972290613081873*^9}, {3.972292556248564*^9, 3.9722925700659103`*^9}, {
+   3.97229386350795*^9, 3.9722939001217556`*^9}, 3.9722939394129467`*^9, {
+   3.9722939933354855`*^9, 3.9722939990268383`*^9}, {3.9722940702296524`*^9, 
+   3.972294089834713*^9}, {3.972294182439932*^9, 3.972294322349392*^9}, {
+   3.9722946114644146`*^9, 3.9722946135326595`*^9}, {3.9722947289558983`*^9, 
+   3.9722947351880264`*^9}, {3.9722948315673923`*^9, 3.9722948521399593`*^9}, 
+   3.9722949139108944`*^9, {3.972294966596632*^9, 3.9722949814909477`*^9}, {
+   3.972295027731371*^9, 3.9722952871545696`*^9}, {3.972295856977455*^9, 
+   3.9722958711647778`*^9}, {3.9722959439950027`*^9, 
+   3.9722963183215904`*^9}, {3.97229657115724*^9, 3.972296574148428*^9}, {
+   3.972296659333048*^9, 3.972296665182415*^9}, {3.972296703080168*^9, 
+   3.9722967055647583`*^9}, {3.972296736951454*^9, 3.972296744663227*^9}, {
+   3.9722997028039017`*^9, 3.972299735444998*^9}, 3.972299999401737*^9, {
+   3.9723000340955887`*^9, 3.9723000460932617`*^9}, {3.972300185951092*^9, 
+   3.972300202004833*^9}, {3.972300240692543*^9, 3.972300268591484*^9}, 
+   3.972804983892771*^9, {3.972805035564682*^9, 3.972805125206827*^9}, {
+   3.9728134386687393`*^9, 3.972813465841093*^9}, {3.9728135279766026`*^9, 
+   3.972813611255907*^9}, {3.9728136420557117`*^9, 3.9728136616511517`*^9}, {
+   3.9728136952772884`*^9, 3.972813715090521*^9}, {3.972813745667095*^9, 
+   3.9728138505358086`*^9}, {3.972813890515335*^9, 3.9728139475328026`*^9}, {
+   3.972889880806877*^9, 3.972889971997574*^9}, {3.9728900285861206`*^9, 
+   3.972890170358387*^9}, 3.9728904158947525`*^9, 3.9728907289622574`*^9, 
+   3.972890838233885*^9, {3.9728912861061687`*^9, 3.972891291953184*^9}, {
+   3.9728913409704056`*^9, 3.972891351942625*^9}, {3.972893631187523*^9, 
+   3.972893639665821*^9}, {3.9728936928647175`*^9, 3.9728937206040306`*^9}, {
+   3.9728940055252247`*^9, 3.9728940157763634`*^9}, {3.972894269344364*^9, 
+   3.972894291298149*^9}, {3.972894525892473*^9, 3.972894527620779*^9}, {
+   3.9728948620788136`*^9, 3.97289488920553*^9}, {3.9728950631458225`*^9, 
+   3.9728951219064503`*^9}, {3.972895319630041*^9, 3.9728953546074085`*^9}, {
+   3.9728956391205406`*^9, 3.9728956495834007`*^9}, {3.972932366086645*^9, 
+   3.9729325056315556`*^9}, {3.9729325452170506`*^9, 
+   3.9729325569442425`*^9}, {3.9755656893268642`*^9, 
+   3.9755657639269943`*^9}, {3.9755657940843296`*^9, 3.975565794879673*^9}, {
+   3.975565847490261*^9, 3.975565916764471*^9}, {3.9755659707744427`*^9, 
+   3.975566003458769*^9}, {3.9755660666337547`*^9, 3.9755660817198277`*^9}, {
+   3.9755661735840397`*^9, 3.975566175759367*^9}, {3.975566254357727*^9, 
+   3.975566265170395*^9}, {3.9755663506600018`*^9, 3.9755663538321056`*^9}, {
+   3.9755663920746727`*^9, 3.9755664668048115`*^9}, {3.975566555344742*^9, 
+   3.975566593399164*^9}, {3.975566860017538*^9, 3.975566951631027*^9}, {
+   3.97556748522966*^9, 3.9755674917267437`*^9}, {3.9755675473808804`*^9, 
+   3.975567613887535*^9}, {3.9755676445981064`*^9, 3.975567739866642*^9}, {
+   3.975567819040306*^9, 3.975567831755987*^9}, {3.975574453919279*^9, 
+   3.975574464454172*^9}, 3.975575095046051*^9, {3.9762565151264267`*^9, 
+   3.9762565203657684`*^9}, {3.976256585613428*^9, 3.976256656179596*^9}, {
+   3.976259988817648*^9, 3.976259989766863*^9}, {3.976260049919361*^9, 
+   3.976260051008724*^9}, {3.9763498747522793`*^9, 3.9763499180541496`*^9}, {
+   3.976349948417839*^9, 3.9763503603243923`*^9}, {3.9763503907375393`*^9, 
+   3.9763505353615932`*^9}, {3.976350577136364*^9, 3.976350710263708*^9}, {
+   3.9763507740023155`*^9, 3.9763507778307495`*^9}, {3.976353154040447*^9, 
+   3.9763532871563797`*^9}, {3.9764288007777157`*^9, 
+   3.9764288148215046`*^9}, {3.9764288534186916`*^9, 3.976428918355791*^9}, 
+   3.9764296390432186`*^9, 3.9764298550944633`*^9, {3.976430134462473*^9, 
+   3.9764301537606964`*^9}, {3.976430217741482*^9, 3.976430220057373*^9}, {
+   3.9764311249877644`*^9, 3.9764311792442627`*^9}, {3.9764317193743324`*^9, 
+   3.976431741637438*^9}, {3.9764318479849224`*^9, 3.976431857833927*^9}, {
+   3.9764333281396923`*^9, 3.976433608105921*^9}, {3.97643364315283*^9, 
+   3.976433661852743*^9}, {3.976433989654604*^9, 3.976433993921154*^9}, {
+   3.9765273277655163`*^9, 3.9765274222925453`*^9}, 3.9765274562133503`*^9, {
+   3.9765274884350033`*^9, 3.9765275476329803`*^9}, {3.976527626926552*^9, 
+   3.9765277172536297`*^9}, {3.976527757646839*^9, 3.976527762589386*^9}, {
+   3.976527965418457*^9, 3.9765280099793587`*^9}, {3.976528108265829*^9, 
+   3.9765281820198154`*^9}, {3.976528216145916*^9, 3.976528280548195*^9}, {
+   3.9765283253304253`*^9, 3.976528412174616*^9}, {3.97652844588764*^9, 
+   3.976528557510103*^9}, {3.976528641724041*^9, 3.9765286899797516`*^9}, 
+   3.9765287718890743`*^9, {3.976528998384947*^9, 3.9765290314671745`*^9}, {
+   3.976529172163065*^9, 3.976529195947399*^9}, {3.9765294519052944`*^9, 
+   3.9765294568822384`*^9}, {3.976531202162199*^9, 3.976531227713852*^9}, 
+   3.976609503437519*^9, {3.976614103797308*^9, 3.976614149802889*^9}, {
+   3.976614649892748*^9, 3.976614656643385*^9}, {3.976614752229809*^9, 
+   3.976614770587467*^9}, {3.9766148357336235`*^9, 3.976614843188198*^9}, 
+   3.9766149621457596`*^9, 3.97661517098962*^9, {3.9766167768561344`*^9, 
+   3.9766167933782616`*^9}, {3.976616872563856*^9, 3.9766168769355946`*^9}, {
+   3.9769496668469124`*^9, 3.976949771181984*^9}, {3.97694985739048*^9, 
+   3.9769498620676937`*^9}, {3.9769499562274647`*^9, 3.976950074225273*^9}, {
+   3.9769501321780815`*^9, 3.976950380903433*^9}, {3.976950444742319*^9, 
+   3.976950585213743*^9}, {3.976950623298422*^9, 3.9769506964938927`*^9}, {
+   3.976953847480381*^9, 3.9769538563639717`*^9}, {3.9769540027610188`*^9, 
+   3.976954005311163*^9}, {3.977212844880966*^9, 3.977212845350031*^9}, {
+   3.9772128767461243`*^9, 3.9772131425662384`*^9}, {3.977213545754368*^9, 
+   3.977213610143917*^9}, {3.977213717276684*^9, 3.9772137412646294`*^9}, {
+   3.977213926701767*^9, 3.9772139609183655`*^9}, {3.9772144590975246`*^9, 
+   3.9772144639534187`*^9}, {3.977214585613209*^9, 3.977214587985098*^9}, 
+   3.9772146704423676`*^9, {3.9780716135109577`*^9, 3.978071618865631*^9}, {
+   3.9780716525465965`*^9, 3.978071708804758*^9}, {3.9780717777639465`*^9, 
+   3.97807199020146*^9}, {3.978072020637123*^9, 3.97807203532333*^9}, {
+   3.9780726454040337`*^9, 3.9780726495219955`*^9}, {3.9780728559638386`*^9, 
+   3.9780728699083347`*^9}, {3.978073340166046*^9, 3.9780733413535175`*^9}, {
+   3.97833889050482*^9, 3.9783389125353374`*^9}, {3.978338950744772*^9, 
+   3.978339039316925*^9}, {3.9783391652624264`*^9, 3.978339174076647*^9}, {
+   3.9783392175573196`*^9, 3.978339225689064*^9}, {3.9783394145025673`*^9, 
+   3.978339434644327*^9}, {3.9783394684311256`*^9, 3.9783398417769394`*^9}, {
+   3.978339878428295*^9, 3.978340250476759*^9}, {3.978340339062069*^9, 
+   3.9783403424099655`*^9}, {3.9783409213922424`*^9, 3.97834092596356*^9}, {
+   3.9853346221703453`*^9, 3.985334702890671*^9}, {3.985334738069235*^9, 
+   3.985334793173422*^9}, {3.9853408254520435`*^9, 3.9853408977658157`*^9}, {
+   3.985341001623699*^9, 3.985341507312624*^9}, {3.985341549169203*^9, 
+   3.985341556213934*^9}, {3.9853415928359337`*^9, 3.9853416099922314`*^9}, {
+   3.985341659003395*^9, 3.985341678496826*^9}, {3.985341736784897*^9, 
+   3.9853417528005066`*^9}, {3.9853418158591785`*^9, 
+   3.9853422605585346`*^9}, {3.9855023042355003`*^9, 
+   3.9855023413733044`*^9}, {3.9855023967647495`*^9, 
+   3.9855024547071056`*^9}, {3.9855028894970455`*^9, 
+   3.9855029529658375`*^9}, {3.9855030304555874`*^9, 
+   3.9855030746648026`*^9}, {3.9855031080805016`*^9, 3.985503168105982*^9}, {
+   3.9855031988805485`*^9, 3.985503240521574*^9}, {3.9855034742139225`*^9, 
+   3.9855034936850185`*^9}, {3.9855035847527084`*^9, 
+   3.9855036310122643`*^9}, {3.985503689975235*^9, 3.985503710243429*^9}, {
+   3.9855037548218613`*^9, 3.9855037873861656`*^9}, {3.98550602715415*^9, 
+   3.9855060359443665`*^9}, {3.9857954630486183`*^9, 
+   3.9857954909816113`*^9}, {3.9857955227940025`*^9, 3.985795645020855*^9}, {
+   3.9857956939676743`*^9, 3.9857957107386684`*^9}, {3.9859362367445984`*^9, 
+   3.9859362445895863`*^9}, {3.9859362923514423`*^9, 3.985936309641796*^9}, {
+   3.985936344318077*^9, 
+   3.985936487555174*^9}},ExpressionUUID->"10e21d98-c1d7-f948-97a0-\
+417776d9a351"]
+},
+WindowSize->{510.75, 537},
+WindowMargins->{{-5.25, Automatic}, {Automatic, 0}},
+Magnification:>0.75 Inherited,
+FrontEndVersion->"14.2 for Microsoft Windows (64-bit) (March 14, 2025)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"2d933823-3492-124b-9c1b-1fe98f8a397f"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 71594, 1545, 8240, "Input",ExpressionUUID->"10e21d98-c1d7-f948-97a0-417776d9a351"]
+}
+]
+*)
+
