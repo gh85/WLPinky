@@ -1,0 +1,307 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     14498,        299]
+NotebookOptionsPosition[     13624,        278]
+NotebookOutlinePosition[     14027,        294]
+CellTagsIndexPosition[     13984,        291]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"$path", "=", 
+   RowBox[{"NotebookDirectory", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"NotebookEvaluate", "[", 
+   RowBox[{"$path", "<>", "\"\<src\\\\utiles.nb\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"NotebookEvaluate", "[", 
+   RowBox[{"$path", "<>", "\"\<src\\\\tokens.nb\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"NotebookEvaluate", "[", 
+   RowBox[{"$path", "<>", "\"\<src\\\\lexer.nb\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"NotebookEvaluate", "[", 
+   RowBox[{"$path", "<>", "\"\<src\\\\model.nb\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"NotebookEvaluate", "[", 
+   RowBox[{"$path", "<>", "\"\<src\\\\state.nb\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"NotebookEvaluate", "[", 
+   RowBox[{"$path", "<>", "\"\<src\\\\parser.nb\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"NotebookEvaluate", "[", 
+   RowBox[{"$path", "<>", "\"\<src\\\\interpreter.nb\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.972191125382759*^9, 3.9721912373632603`*^9}, {
+  3.9722379305118103`*^9, 3.9722379358112736`*^9}, {3.9722381774573593`*^9, 
+  3.9722381807016945`*^9}, {3.9723002798265896`*^9, 3.9723002806059856`*^9}, {
+  3.972803142319437*^9, 3.9728031778098335`*^9}, {3.972806991184458*^9, 
+  3.9728070084718094`*^9}, {3.972898990909773*^9, 3.9728990064907036`*^9}, {
+  3.973008605922142*^9, 3.973008613699766*^9}, {3.9773070182217464`*^9, 
+  3.9773070228499146`*^9}},
+ CellLabel->
+  "In[125]:=",ExpressionUUID->"adf06e07-b3a5-db4f-92e5-833c42e42fb5"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"ReadFile", "[", "file_", "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"stream", ",", "src", ",", "ast"}], "}"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"stream", "=", 
+        RowBox[{"OpenRead", "[", 
+         RowBox[{"$path", "<>", "\"\<scripts\\\\\>\"", "<>", "file"}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"src", "=", 
+        RowBox[{"ReadString", "[", "stream", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Close", "[", "stream", "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Return", "[", "src", "]"}]}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"PinkyShow", "[", 
+     RowBox[{"src_", ",", "opt___"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"lexer", ",", "tokens", ",", "parser", ",", "inter"}], "}"}], ",",
+       "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"lexer", "=", 
+        RowBox[{"Lexer", "[", "src", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"tokens", "=", 
+        RowBox[{"Tokenize", "[", "lexer", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"parser", "=", 
+        RowBox[{"Parser", "[", "tokens", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"ast", "=", 
+        RowBox[{"Parse", "[", "parser", "]"}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"DumpModule", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"\"\<***********************************\nSource:\n\
+***********************************\\n\>\"", "<>", "\[IndentingNewLine]", 
+          "src", "<>", "\"\<\\n\>\"", "<>", 
+          "\[IndentingNewLine]", "\"\<***********************************\n\
+Tokens:\n***********************************\\n\>\"", "<>", 
+          "\[IndentingNewLine]", 
+          RowBox[{"PrintTokens", "[", "tokens", "]"}], "<>", "\"\<\\n\>\"", 
+          "<>", "\"\<***********************************\nAST:\n\
+***********************************\\n\>\"", "<>", "\[IndentingNewLine]", 
+          RowBox[{"PrintPrettyAST", "[", "ast", "]"}], "<>", "\"\<\\n\>\""}], 
+         "\[IndentingNewLine]", ",", "opt"}], "]"}], ";"}]}], 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.9721912900354633`*^9, 3.9721912922888584`*^9}, {
+   3.972191346193159*^9, 3.9721913852404194`*^9}, {3.972191476207531*^9, 
+   3.9721914851939335`*^9}, {3.972191526057585*^9, 3.9721915265580654`*^9}, 
+   3.9721916055801353`*^9, {3.97219164897196*^9, 3.972191679690012*^9}, {
+   3.972244841019951*^9, 3.972244841647829*^9}, {3.972299846430704*^9, 
+   3.9722998470707397`*^9}, {3.9727966679584923`*^9, 3.972796690286337*^9}, {
+   3.972796919986479*^9, 3.9727969235990963`*^9}, {3.97279702395446*^9, 
+   3.9727970455679207`*^9}, {3.972805963352583*^9, 3.972805992918255*^9}, {
+   3.972806023410349*^9, 3.972806023465004*^9}, {3.9728060620807*^9, 
+   3.972806072358198*^9}, {3.972806120612467*^9, 3.9728062326304817`*^9}, {
+   3.9728062642372265`*^9, 3.9728062756812363`*^9}, 3.972806356333828*^9, {
+   3.9728064664436703`*^9, 3.9728067317169285`*^9}, {3.9728067938054695`*^9, 
+   3.972806807709017*^9}, {3.9728068552849255`*^9, 3.9728069700952015`*^9}, {
+   3.9728070274573975`*^9, 3.972807070057108*^9}, {3.972807100771185*^9, 
+   3.972807125483696*^9}, {3.9728071694568367`*^9, 3.9728072064187717`*^9}, {
+   3.9728072469108543`*^9, 3.972807274630417*^9}, {3.972808958862692*^9, 
+   3.9728089968153267`*^9}, {3.972809555384012*^9, 3.972809566380316*^9}, {
+   3.972809608667557*^9, 3.9728096358301163`*^9}, {3.972809679661192*^9, 
+   3.972809684849144*^9}, {3.972810274193783*^9, 3.9728102957345066`*^9}, {
+   3.972890185560362*^9, 3.9728901889576797`*^9}, {3.972898746416807*^9, 
+   3.9728988132390747`*^9}, {3.972902955296749*^9, 3.972902978533512*^9}, {
+   3.9729030699655304`*^9, 3.972903074373514*^9}, {3.972905597032118*^9, 
+   3.9729056277676544`*^9}, {3.972905659469343*^9, 3.972905683805214*^9}, {
+   3.9729320981245823`*^9, 3.972932099114338*^9}, {3.9729322346764584`*^9, 
+   3.9729322634674435`*^9}, {3.9730039608641624`*^9, 
+   3.9730039902230434`*^9}, {3.973004154792942*^9, 3.973004160501068*^9}, {
+   3.9730041909065113`*^9, 3.973004279839983*^9}, {3.9730043321278725`*^9, 
+   3.9730043326689205`*^9}, {3.9730046396838455`*^9, 3.973004748261545*^9}, {
+   3.973004932091196*^9, 3.9730050062208233`*^9}, {3.973008719940462*^9, 
+   3.9730087262920456`*^9}, {3.97300876430192*^9, 3.973008795859333*^9}, {
+   3.973008826016403*^9, 3.973008952234728*^9}, 3.973009199470436*^9, {
+   3.9730092539277153`*^9, 3.9730093104275475`*^9}, {3.975568725640299*^9, 
+   3.9755687298900204`*^9}, {3.9755689591290016`*^9, 
+   3.9755689696470165`*^9}, {3.975569009438671*^9, 3.975569054878689*^9}, {
+   3.9755690868287067`*^9, 3.9755692444983196`*^9}, {3.975569393525343*^9, 
+   3.9755694184781*^9}, {3.975569483327364*^9, 3.9755694857300167`*^9}, {
+   3.975569773457052*^9, 3.9755697860599823`*^9}, {3.975569822712038*^9, 
+   3.975569829390089*^9}, {3.9755698685208683`*^9, 3.975569874668377*^9}, {
+   3.9755699097002716`*^9, 3.975569921753687*^9}, 3.975570216576742*^9, {
+   3.975570334105503*^9, 3.9755703348397217`*^9}, {3.975570403701084*^9, 
+   3.9755704290099564`*^9}, {3.9755706166598873`*^9, 
+   3.9755706334695873`*^9}, {3.975570678660923*^9, 3.9755706990163116`*^9}, {
+   3.9755707415087624`*^9, 3.9755707431056614`*^9}, {3.9755707960848618`*^9, 
+   3.975570846011608*^9}, {3.975570906934599*^9, 3.9755709106244526`*^9}, {
+   3.9755710523382893`*^9, 3.9755710760094585`*^9}, 3.9755711361640835`*^9, {
+   3.975571209581066*^9, 3.975571324412695*^9}, {3.975571363575371*^9, 
+   3.975571535875681*^9}, {3.9755715743546524`*^9, 3.9755716897075424`*^9}, {
+   3.975571728629219*^9, 3.9755718179964657`*^9}, {3.975571872807026*^9, 
+   3.9755718794713078`*^9}, {3.9755720184880486`*^9, 3.9755720190461006`*^9}, 
+   3.975572071279768*^9, {3.9755721639609222`*^9, 3.9755721680851707`*^9}, {
+   3.975579757880575*^9, 3.975579758667345*^9}, {3.9755798241500816`*^9, 
+   3.975579825127756*^9}, {3.9755799054590645`*^9, 3.9755799176542835`*^9}, {
+   3.975580003983671*^9, 3.9755800078067303`*^9}, {3.9755800448018227`*^9, 
+   3.9755800672354603`*^9}, {3.976261165363102*^9, 3.9762612079063854`*^9}, {
+   3.9764293634766006`*^9, 3.976429370542143*^9}, {3.9766099336759453`*^9, 
+   3.9766099535972652`*^9}, {3.97661042362796*^9, 3.97661044490794*^9}, {
+   3.9772141899392567`*^9, 3.9772141900677853`*^9}, {3.9863206544919415`*^9, 
+   3.9863206553892365`*^9}},ExpressionUUID->"f5fadcee-bf23-f344-beca-\
+cc9b3e9e9670"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"PinkyInterPreter", "[", 
+    RowBox[{"src_", ",", 
+     RowBox[{"pauseTime_", ":", "0"}]}], "]"}], ":=", 
+   RowBox[{"Block", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "lexer", ",", "tokens", ",", "parser", ",", "inter", ",", "ast"}], 
+      "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"$PinkyTerminal", "=", "\"\<\>\""}], ";", "\[IndentingNewLine]", 
+      RowBox[{"lexer", "=", 
+       RowBox[{"Lexer", "[", "src", "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"tokens", "=", 
+       RowBox[{"Tokenize", "[", "lexer", "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"parser", "=", 
+       RowBox[{"Parser", "[", "tokens", "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"ast", "=", 
+       RowBox[{"Parse", "[", "parser", "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"inter", "=", 
+       RowBox[{"InterPretAst", "[", "ast", "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"PrintTemporary", "[", "$PinkyTerminal", "]"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Pause", "[", "pauseTime", "]"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"Return", "[", "inter", "]"}]}]}], "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.976609384200964*^9, 3.976609398408016*^9}, 
+   3.9766099031747074`*^9, {3.9766115024088936`*^9, 3.9766115434610424`*^9}, {
+   3.9766115740795155`*^9, 3.976611599105858*^9}, {3.9766116346900654`*^9, 
+   3.976611681438305*^9}, 3.976611896273901*^9, {3.9766864054345016`*^9, 
+   3.976686408444311*^9}, {3.9772134620790424`*^9, 3.977213462382408*^9}, {
+   3.97764050806563*^9, 3.977640514229311*^9}, {3.9783778525140553`*^9, 
+   3.9783778547851543`*^9}},
+ CellLabel->"In[9]:=",ExpressionUUID->"1cc7281a-743f-8242-9f89-75c2cf56f231"],
+
+Cell[" ", "Text",
+ Editable->False,
+ Selectable->False,
+ CellFrame->{{0, 0}, {0, 0.5}},
+ ShowCellBracket->False,
+ CellMargins->{{0, 0}, {1, 1}},
+ CellElementSpacings->{"CellMinHeight"->1},
+ CellFrameMargins->0,
+ CellFrameColor->RGBColor[0, 0, 1],
+ CellSize->{
+  Inherited, 3},ExpressionUUID->"cdbcb327-7cff-204f-989e-150c5ef01115"],
+
+Cell[CellGroupData[{
+
+Cell["ExternalEvaluate", "Subsection",
+ CellChangeTimes->{{3.9863206720573177`*^9, 
+  3.986320682921335*^9}},ExpressionUUID->"4eb36814-4b4d-d44a-afef-\
+aff3ef56742e"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"$PinkyRegister", "=", 
+    RowBox[{"Switch", "[", "\[IndentingNewLine]", 
+     RowBox[{
+     "$OperatingSystem", ",", "\[IndentingNewLine]", "\"\<Windows\>\"", ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"NotebookDirectory", "[", "]"}], ",", "\"\<bin\>\"", 
+         ",", "\"\<pinky.exe\>\""}], "}"}], "]"}], ",", 
+      "\[IndentingNewLine]", "\"\<Linux\>\"", ",", "\[IndentingNewLine]", 
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"NotebookDirectory", "[", "]"}], ",", "\"\<bin\>\"", 
+         ",", "\"\<pinky.exe\>\""}], "}"}], "]"}], ",", "\[IndentingNewLine]",
+       "_", ",", 
+      RowBox[{"Abort", "[", "]"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"PinkyExternalEvaluate", "[", 
+   RowBox[{"filename_", ",", "opt___"}], "]"}], ":=", "\[IndentingNewLine]", 
+  RowBox[{"DumpModule", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"RunProcess", "[", 
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"$PinkyRegister", ",", "\[IndentingNewLine]", 
+        RowBox[{"FileNameJoin", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"NotebookDirectory", "[", "]"}], ",", "\"\<scripts\>\"", ",",
+            "filename"}], "}"}], "]"}]}], "\[IndentingNewLine]", "}"}], "]"}],
+      "[", "\"\<StandardOutput\>\"", "]"}], ",", "opt"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.9863208146679726`*^9, 3.9863208479265614`*^9}, {
+   3.986320878306864*^9, 3.9863208807043304`*^9}, {3.986320937023329*^9, 
+   3.986321144777485*^9}, {3.9863211824459896`*^9, 3.9863212083922806`*^9}, {
+   3.9863213662851353`*^9, 3.9863213802425766`*^9}, 3.9863225433576164`*^9},
+ CellLabel->"In[11]:=",ExpressionUUID->"e97af88c-e6f9-e44c-991f-0ecb69f0276e"]
+}, Open  ]]
+},
+WindowSize->{510.75, 531.75},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"14.2 for Microsoft Windows (64-bit) (March 14, 2025)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"fcea155b-4aaf-7840-9598-1fc38db6abb5"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 1680, 34, 180, "Input",ExpressionUUID->"adf06e07-b3a5-db4f-92e5-833c42e42fb5"],
+Cell[2237, 56, 7103, 118, 846, "Input",ExpressionUUID->"f5fadcee-bf23-f344-beca-cc9b3e9e9670"],
+Cell[9343, 176, 1828, 37, 256, "Input",ExpressionUUID->"1cc7281a-743f-8242-9f89-75c2cf56f231"],
+Cell[11174, 215, 331, 10, 5, "Text",ExpressionUUID->"cdbcb327-7cff-204f-989e-150c5ef01115"],
+Cell[CellGroupData[{
+Cell[11530, 229, 166, 3, 53, "Subsection",ExpressionUUID->"4eb36814-4b4d-d44a-afef-aff3ef56742e"],
+Cell[11699, 234, 1909, 41, 384, "Input",ExpressionUUID->"e97af88c-e6f9-e44c-991f-0ecb69f0276e"]
+}, Open  ]]
+}
+]
+*)
+
