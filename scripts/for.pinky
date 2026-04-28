@@ -1,0 +1,5 @@
+
+
+for num := 1, 5 do
+  println("num = " + num)
+end
